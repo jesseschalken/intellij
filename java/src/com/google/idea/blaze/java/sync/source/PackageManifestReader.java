@@ -196,7 +196,7 @@ public class PackageManifestReader {
     if (!location.getIsNewExternalVersion() && location.getIsExternal()) {
       // fix up incorrect paths created with older aspect version
       // Note: bazel always uses the '/' separator here, even on windows.
-      List<String> components = StringUtil.split(relativePath, "/");
+      List<String> components = StringUtil.split(relativePath.replace('\\', '/'), "/");
       if (components.size() > 2) {
         relativePath = Joiner.on('/').join(components.subList(2, components.size()));
         String prefix = components.get(0) + "/" + components.get(1);

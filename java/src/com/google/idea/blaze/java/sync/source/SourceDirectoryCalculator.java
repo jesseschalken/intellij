@@ -163,7 +163,8 @@ public final class SourceDirectoryCalculator {
     if (rootDirectory.isWorkspaceRoot()) {
       return true;
     }
-    String rootDirectoryString = rootDirectory.toString();
+    String rootDirectoryString = rootDirectory.toString().replace('\\', '/');
+    relativePath = relativePath.replace('\\', '/');
     return relativePath.startsWith(rootDirectoryString)
         && (relativePath.length() == rootDirectoryString.length()
             || (relativePath.charAt(rootDirectoryString.length()) == '/'));
@@ -287,7 +288,7 @@ public final class SourceDirectoryCalculator {
           sourcePathRelativeToDirectoryRoot(directoryRoot, sourceRoot.workspacePath);
       List<String> pathComponents =
           !Strings.isNullOrEmpty(sourcePathRelativeToDirectoryRoot)
-              ? PATH_SPLITTER.splitToList(sourcePathRelativeToDirectoryRoot)
+              ? PATH_SPLITTER.splitToList(sourcePathRelativeToDirectoryRoot.replace('\\', '/'))
               : ImmutableList.of();
       SourceRootDirectoryNode previousNode = rootNode;
       for (int i = 0; i < pathComponents.size(); ++i) {
@@ -311,7 +312,7 @@ public final class SourceDirectoryCalculator {
       List<String> packageComponents = PACKAGE_SPLITTER.splitToList(sourceRoot.packagePrefix);
       List<String> pathComponents =
           !Strings.isNullOrEmpty(sourcePathRelativeToDirectoryRoot)
-              ? PATH_SPLITTER.splitToList(sourcePathRelativeToDirectoryRoot)
+              ? PATH_SPLITTER.splitToList(sourcePathRelativeToDirectoryRoot.replace('\\', '/'))
               : ImmutableList.of();
       int packageIndex = packageComponents.size();
       int pathIndex = pathComponents.size();

@@ -144,7 +144,7 @@ public final class BlazeHotSwapManager {
           throw new ExecutionException(
               String.format("Couldn't find class file %s inside jar %s.", path, jar));
         }
-        File f = new File(destination, path.replace('/', '-'));
+        File f = new File(destination, path.replace('\\', '/').replace('/', '-'));
         f.deleteOnExit();
         try (InputStream inputStream = jarFile.getInputStream(entry)) {
           Files.copy(inputStream, f.toPath(), StandardCopyOption.REPLACE_EXISTING);
@@ -159,6 +159,7 @@ public final class BlazeHotSwapManager {
 
   /** Derive the fully-qualified class name from the path inside the jar. */
   private static String deriveQualifiedClassName(String path) {
+    path = path.replace('\\', '/');
     return path.substring(0, path.length() - ".class".length()).replace('/', '.');
   }
 

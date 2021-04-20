@@ -198,7 +198,10 @@ public final class BlazeJavaWorkspaceImporter {
       if (sourceFilter.jdepsPathsForExcludedJars.contains(artifact.getRelativePath())) {
         continue;
       }
-      BlazeJarLibrary library = jdepsPathToLibrary.get(artifact.getRelativePath());
+      BlazeJarLibrary library = jdepsPathToLibrary.get(jdepsPath);
+      if (library == null) {
+        library = jdepsPathToLibrary.get(artifact.getRelativePath());
+      }
       if (library == null) {
         // It's in the target's jdeps, but our aspect never attached to the target building it.
         // Perhaps it's an implicit dependency, or not referenced in an attribute we propagate
@@ -236,10 +239,12 @@ public final class BlazeJavaWorkspaceImporter {
     ArtifactLocation interfaceJar = libraryArtifact.getInterfaceJar();
     if (interfaceJar != null) {
       jdepsPathToLibrary.put(interfaceJar.getRelativePath(), library);
+      jdepsPathToLibrary.put(interfaceJar.getExecutionRootRelativePath(), library);
     }
     ArtifactLocation classJar = libraryArtifact.getClassJar();
     if (classJar != null) {
       jdepsPathToLibrary.put(classJar.getRelativePath(), library);
+      jdepsPathToLibrary.put(classJar.getExecutionRootRelativePath(), library);
     }
   }
 

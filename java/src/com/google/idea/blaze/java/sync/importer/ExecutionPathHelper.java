@@ -36,6 +36,7 @@ final class ExecutionPathHelper {
   /** Parse an {@link ArtifactLocation} from an execution-root-relative path. */
   static ArtifactLocation parse(
       WorkspaceRoot root, BuildSystem buildSystem, String executionRootRelativePath) {
+    executionRootRelativePath = executionRootRelativePath.replace('\\', '/');
     // Bazel should always use '/' as the file separator char for these paths.
     int firstSep = executionRootRelativePath.indexOf('/');
     if (firstSep < 0) {

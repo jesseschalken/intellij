@@ -45,7 +45,7 @@ public class ClassPackagePathHeuristic implements TestTargetHeuristic {
       return false;
     }
     String targetName = target.label.targetName().toString();
-    if (!targetName.contains("/")) {
+    if (!targetName.replace('\\', '/').contains("/")) {
       return false;
     }
     return ReadAction.compute(() -> doMatchesSource((PsiClassOwner) sourcePsiFile, targetName));

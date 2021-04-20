@@ -57,6 +57,7 @@ final class LocationSubstitution {
 
   private static Label getLabelFromLocation(String location, Label target)
       throws ExecutionException {
+    location = location.replace('\\', '/');
     int colonIndex = location.indexOf(':');
     if (colonIndex == 0 && location.length() > 1) {
       // A relative target like ":foo"
@@ -71,6 +72,7 @@ final class LocationSubstitution {
     }
 
     // An absolute path with no colon like "//devtools/ide"
+    location = location.replace('\\', '/');
     int lastSlash = location.lastIndexOf('/');
     if (lastSlash == location.length() - 1) {
       throw new ExecutionException(error(target, "invalid target format '" + location + "'"));
