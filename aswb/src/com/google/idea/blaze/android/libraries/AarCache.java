@@ -84,12 +84,25 @@ public class AarCache {
   }
 
   /**
-   * Create timestamp file for the given key. The stamp file is used to identify if we need to
-   * update.
+   * Create timestamp file for the given key and update its modified time. The stamp file is used to
+   * identify if we need to update.
+   *
+   * @param key the key to retrieve aar directory from cache
+   * @param aarFile the aar file that we need to create timestamp file for. The modified time of
+   *     time stamp file will be updated the same as that of the aar file. So that it can be used to
+   *     decide if the aar file need to be updated next time. Time stamp file will use creation time
+   *     as modified time if null is provided.
    */
-  public File createTimeStampFile(String key) throws IOException {
+  public File createTimeStampFile(String key, @Nullable File aarFile) throws IOException {
+    FileOperationProvider ops = FileOperationProvider.getInstance();
     File stampFile = new File(aarDirForKey(key), STAMP_FILE_NAME);
     stampFile.createNewFile();
+    if (aarFile != null) {
+      long sourceTime = ops.getFileModifiedTime(aarFile);
+      if (!ops.setFileModifiedTime(stampFile, sourceTime)) {
+        throw new IOException("Fail to update file modified time for " + aarFile);
+      }
+    }
     return stampFile;
   }
 
