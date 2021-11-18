@@ -101,7 +101,7 @@ public class CompilerWrapperProviderImpl implements CompilerWrapperProvider {
   }
 
   private static String escapeShArg(String value) {
-    return "'" + value.replace("'", "\\'") + "'";
+    return "'" + value.replace("'", "''\"''") + "'";
   }
 
   private static String escapeBatArg(String value) {
