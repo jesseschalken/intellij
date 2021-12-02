@@ -184,7 +184,10 @@ final class ProjectUpdateSyncTask {
                 projectState.getProjectViewSet(),
                 projectState.getLanguageSettings(),
                 projectState.getBlazeVersionData(),
-                projectState.getWorkingSet(),
+                // Pass null because of bugs causing missing libraries when a working set is present
+                // https://github.com/bazelbuild/intellij/issues/490
+                // projectState.getWorkingSet(),
+                null,
                 artifactLocationDecoder,
                 targetMap,
                 syncStateBuilder,
