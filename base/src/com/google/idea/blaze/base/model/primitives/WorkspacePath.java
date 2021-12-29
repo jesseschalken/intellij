@@ -48,6 +48,8 @@ public class WorkspacePath implements ProtoWrapper<String>, Serializable {
    * @throws IllegalArgumentException if the path is invalid
    */
   public WorkspacePath(String relativePath) {
+    // Replace Windows path separators with Blaze style
+    relativePath = relativePath.replace('\\', BLAZE_COMPONENT_SEPARATOR);
     String error = validate(relativePath);
     if (error != null) {
       throw new IllegalArgumentException(
