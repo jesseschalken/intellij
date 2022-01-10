@@ -37,7 +37,8 @@ public final class HotSwapUtils {
   private HotSwapUtils() {}
 
   static final BoolExperiment enableHotSwapping =
-      new BoolExperiment("java.hotswapping.enabled", true);
+      // Disable by default because it doesn't work on Windows (assumes /bin/bash exists)
+      new BoolExperiment("java.hotswapping.enabled", false);
 
   private static final ImmutableSet<Kind> SUPPORTED_BINARIES = getSupportedBinaries();
 
