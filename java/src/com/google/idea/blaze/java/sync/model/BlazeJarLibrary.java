@@ -78,11 +78,14 @@ public final class BlazeJarLibrary extends BlazeLibrary {
     }
 
     AttachedSourceJarManager sourceJarManager = AttachedSourceJarManager.getInstance(project);
-    for (AttachSourcesFilter decider : AttachSourcesFilter.EP_NAME.getExtensions()) {
-      if (decider.shouldAlwaysAttachSourceJar(this)) {
-        sourceJarManager.setHasSourceJarAttached(key, true);
-      }
-    }
+    // for (AttachSourcesFilter decider : AttachSourcesFilter.EP_NAME.getExtensions()) {
+    //   if (decider.shouldAlwaysAttachSourceJar(this)) {
+    //     sourceJarManager.setHasSourceJarAttached(key, true);
+    //   }
+    // }
+
+    // Always attach source jars
+    sourceJarManager.setHasSourceJarAttached(key, true);
 
     if (!sourceJarManager.hasSourceJarAttached(key)) {
       return;
